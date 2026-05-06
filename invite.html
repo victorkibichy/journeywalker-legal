@@ -8,6 +8,14 @@
       name="description"
       content="You've been invited to My Journey Walker! Track steps, compete with friends, and crush walking goals together."
     />
+    <!-- Open Graph tags for social sharing -->
+    <meta property="og:title" content="Join Me on My Journey Walker" />
+    <meta property="og:description" content="Track steps, compete with friends, and crush walking goals together." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://victorkibichy.github.io/journeywalker-legal/invite.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#1f6b5f" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,32 +30,52 @@
       .invite-hero .subtitle { color: var(--muted); font-size: 1.1rem; max-width: 480px; margin: 0 auto 2rem; }
       .invite-ref { display: inline-block; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 0.5rem 1.2rem; font-family: 'Space Grotesk', monospace; font-size: 0.95rem; color: var(--accent); margin-bottom: 1.5rem; }
       .steps-row { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
-      .step-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 1.5rem; width: 200px; box-shadow: var(--shadow); }
+      .step-card { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 1.5rem; width: 200px; box-shadow: var(--shadow); transition: transform 0.2s ease; }
+      .step-card:hover { transform: translateY(-4px); }
       .step-card .num { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--accent); }
       .step-card p { margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem; }
       .app-badge { display: inline-block; margin-top: 1rem; }
       .app-badge img { height: 54px; }
-      .open-app-btn { display: inline-block; background: var(--accent); color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem; padding: 0.85rem 2.2rem; border-radius: 12px; text-decoration: none; margin: 0.5rem; transition: transform 0.15s; }
-      .open-app-btn:hover { transform: translateY(-2px); }
+      .open-app-btn { display: inline-block; background: var(--accent); color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem; padding: 0.85rem 2.2rem; border-radius: 12px; text-decoration: none; margin: 0.5rem; transition: transform 0.15s, box-shadow 0.15s; cursor: pointer; }
+      .open-app-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(31, 107, 95, 0.2); }
+      .open-app-btn:active { transform: translateY(0); }
       .open-app-btn.secondary { background: var(--accent-2); }
+      .cta-primary { display: flex; flex-direction: column; gap: 0.8rem; align-items: center; }
+      @media (min-width: 600px) {
+        .cta-primary { flex-direction: row; justify-content: center; }
+      }
     </style>
     <script>
       function getParam(name) {
         const url = new URLSearchParams(window.location.search);
         return url.get(name) || '';
       }
+      
       document.addEventListener('DOMContentLoaded', function() {
         const ref = getParam('ref');
         const refEl = document.getElementById('ref-code');
+        
         if (ref && refEl) {
           refEl.textContent = ref;
           refEl.parentElement.style.display = 'block';
         }
-        // Try to open the app via deep link
-        const userId = getParam('ref');
-        if (userId) {
-          const deepLink = 'myjourneywalker://invite?ref=' + encodeURIComponent(userId);
-          document.getElementById('open-app-link').href = deepLink;
+        
+        // Attempt deep link to app with 2-second delay for web fallback
+        if (ref) {
+          const deepLink = 'myjourneywalker://invite?ref=' + encodeURIComponent(ref);
+          const fallbackLink = 'https://apps.apple.com/ke/app/journey-walker/id6761167546';
+          
+          const openAppLink = document.getElementById('open-app-link');
+          if (openAppLink) {
+            openAppLink.href = deepLink;
+          }
+          
+          // Fallback: if app doesn't open in 2s, go to App Store
+          setTimeout(function() {
+            if (!document.hidden) {
+              window.location.href = fallbackLink;
+            }
+          }, 2000);
         }
       });
     </script>
@@ -55,7 +83,7 @@
   <body>
     <main class="container">
       <section class="invite-hero">
-        <div class="emoji">🏃‍♂️🔥</div>
+        <div class="emoji" aria-hidden="true">🏃‍♂️🔥</div>
         <h1>You've Been Invited!</h1>
         <p class="subtitle">
           A friend wants you to join them on <strong>My Journey Walker</strong> — track steps,
@@ -81,12 +109,12 @@
           </div>
         </div>
 
-        <div>
-          <a id="open-app-link" class="open-app-btn" href="myjourneywalker://invite">
-            Open in App
+        <div class="cta-primary">
+          <a id="open-app-link" class="open-app-btn" href="https://apps.apple.com/ke/app/journey-walker/id6761167546">
+            📲 Open in App
           </a>
-          <a class="open-app-btn secondary" href="https://apps.apple.com/app/my-journey-walker/id000000000">
-            Get on App Store
+          <a class="open-app-btn secondary" href="https://apps.apple.com/ke/app/journey-walker/id6761167546">
+            🛍️ Get on App Store
           </a>
         </div>
 
